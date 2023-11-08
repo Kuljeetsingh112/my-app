@@ -8,12 +8,11 @@ export default async function handler(req, res) {
     try {
 
       const { DB_name, user_id } = req.query;
-      const userDetail = await fetchUserDetail(res, DB_name, user_id);
-      res.status(200).json({ userDetail, message: "Data Fetched" });
-
+      await fetchUserDetail(res, DB_name, user_id);
+      // res.status(200).json({ message: "Data Fetched" });
     } catch (error) {
 
-      console.error("Error:", error);
+      console.error("Error:", error.message);
       res.status(500).json({ error: "Internal Server Error" });
 
     }
@@ -31,9 +30,7 @@ export default async function handler(req, res) {
         Location,
       };
 
-      const rows = await addUserDetails(res, DB_name, data);
-
-      res.status(200).json({ message: "User details added successfully", userDetail: rows });
+      await addUserDetails(res, DB_name, data);
     } catch (error) {
       console.error("Error:", error);
       res.status(500).json({ error: "Internal Server Error" });
@@ -59,7 +56,6 @@ export default async function handler(req, res) {
 
       await updateUserDetail(res, DB_name, user_id, data);
 
-      res.status(200).json({ message: "User details updated successfully" });
     } catch (error) {
       console.error("Error:", error);
       res.status(500).json({ error: "Internal Server Error" });
@@ -74,10 +70,7 @@ export default async function handler(req, res) {
       if (!DB_name || !user_id) {
         return res.status(400).json({ error: "Missing required fields" });
       }
-
       await deleteUser(res, DB_name, user_id);
-
-      res.status(200).json({ message: "User deleted successfully" });
     } catch (error) {
       console.error("Error:", error);
       res.status(500).json({ error: "Internal Server Error" });

@@ -3,12 +3,11 @@ import { selectUser, createUser, deleteUser, updateUser } from "../../../../DB/c
 
 export const Insert = async (DB_name, TableName, data) => {
     try {
-
         const query = `INSERT INTO ${TableName} SET ?`
         return await createUser(query, data, DB_name)
 
     } catch (error) {
-        throw new Error(error);
+        throw new Error(`Insert error : ${error.message} `);
     }
 }
 
@@ -25,9 +24,7 @@ export const Select = async (DB_name, TableName, user_id = "") => {
         return rows;
 
     } catch (error) {
-
-        throw new Error(error);
-
+        throw new Error(`Select Error: ${error.message}`);
     }
 }
 
@@ -37,7 +34,7 @@ export const Delete = async (DB_name, TableName, user_id) => {
         const query = `DELETE FROM ${TableName} WHERE user_id = ${user_id}`
         return await deleteUser(query, DB_name);
     } catch (error) {
-        throw new Error(error);
+        throw new Error(`Delete Error: ${error.message}`);
     }
 }
 
@@ -47,8 +44,7 @@ export const Update = async (DB_name, TableName, data, user_id) => {
         const query = `UPDATE ${TableName} SET ? WHERE user_id = ${user_id}`
         return await updateUser(query, DB_name, data)
 
-
     } catch (error) {
-        throw new Error(error);
+        throw new Error(`Update Error: ${error.message}`);
     }
 }
